@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Epic Task</title>
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css"
+    >
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body class="container">
+
+<nav class="navbar mb-4" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+        <a class="navbar-item" href="/">
+            <h1 class="title is-2">Epic Task</h1>
+        </a>
+
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+    </div>
+
+    <div id="navbarBasicExample" class="navbar-menu">
+        <div class="navbar-start">
+            <a class="navbar-item">
+                Home
+            </a>
+
+            <a class="navbar-item">
+                Documentation
+            </a>
+
+            <div class="navbar-item has-dropdown is-hoverable">
+                <a class="navbar-link">
+                    More
+                </a>
+
+                <div class="navbar-dropdown">
+                    <a class="navbar-item">
+                        About
+                    </a>
+                    <a class="navbar-item is-selected">
+                        Jobs
+                    </a>
+                    <a class="navbar-item">
+                        Contact
+                    </a>
+                    <hr class="navbar-divider">
+                    <a class="navbar-item">
+                        Report an issue
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="navbar-end">
+            <div class="navbar-item">
+                <div class="buttons">
+                    <figure class="image">
+                        <img class="is-rounded" th:src="${user.attributes.avatar_url}" alt="avatar do usuario">
+                    </figure>
+                    <span th:text="${user.attributes.name}"></span>
+                    <a href="/logout" class="button is-light">
+                        Log out
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+    <h1 class="title">Tarefas Pendentes</h1>
+
+    <p class="notification is-success" th:if="${message}" th:text="${message}"></p>
+
+    <a href="/form" class="button is-success mb-2">
+        <span class="icon is-small">
+          <i class="fas fa-plus"></i>
+        </span>
+        <span>Nova Tarefa</span>
+    </a>
+
+    <section class="grid is-col-min-10">
+        <div class="card cell has-background-grey-dark" th:each="task: ${tasks}">
+            <header class="card-header has-background-primary">
+                <p class="card-header-title" th:text="${task.title}"></p>
+                <span class="tag is-warning" th:text="${task.score} + pts"></span>
+            </header>
+
+            <div class="card-content">
+                <div class="content" th:text="${task.description}"></div>
+                <progress class="progress is-primary" th:value="${task.status}" max="100"></progress>
+            </div>
+
+            <footer class="card-footer">
+                <form th:action="@{/task/{id}(id=${task.id})}" method="post">
+                    <input type="hidden" name="_method" value="delete">
+                    <button class="button is-danger is-outlined">
+                        <span class="icon is-small">
+                          <i class="fas fa-trash"></i>
+                        </span>
+                        <span>Apagar</span>
+                    </button>
+                </form>
+            </footer>
+        </div>
+    </section>
+
+
+</body>
+</html>
