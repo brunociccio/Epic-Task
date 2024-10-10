@@ -32,6 +32,4 @@ build/
 ### VS Code ###
 .vscode/
 
-# Ignorar arquivo de configuração do Spring Boot
-application.properties
 
